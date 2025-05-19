@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from pymongo import MongoClient
 
 app = Flask(__name__)
@@ -27,9 +27,20 @@ def add_data():
     else:
         return jsonify({'message': 'No data provided'}), 400
     
+
+@app.route('/data', methods=['GET'])
+def get_data():
+    data = list(mycol.find())
+
+    # Convert ObjectId to string for JSON serialization
+    for item in data:
+        item['_id'] = str(item['_id'])
+
+    return jsonify(data)
+    
 @app.route('/', methods=['GET'])
 def welcome():
-    return 'hello world'
+    return render_template("./index.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
