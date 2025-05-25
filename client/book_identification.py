@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import cv2
 import pytesseract
 from matplotlib import pyplot as plt
@@ -16,8 +18,9 @@ pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesserac
 extracted_text = pytesseract.image_to_string(gray)
 print(" Extracted Text:\n")
 print(extracted_text)
-data = pytesseract.image_to_data(gray, output_type=pytesseract.Output.DICT)
 
+'''
+data = pytesseract.image_to_data(gray, output_type=pytesseract.Output.DICT)
 n_boxes = len(data['level'])
 for i in range(n_boxes):
     (x, y, w, h) = (data['left'][i], data['top'][i], data['width'][i], data['height'][i])
@@ -28,3 +31,4 @@ plt.imshow(gray)
 plt.title("Image with Text Bounding Boxes")
 plt.axis("off")
 plt.show()
+'''
