@@ -2,6 +2,7 @@
 
 from flask import Flask, request, jsonify, render_template
 from pymongo import MongoClient
+import requests
 
 app = Flask(__name__)
 
@@ -41,6 +42,23 @@ def get_data():
 @app.route('/', methods=['GET'])
 def welcome():
     return render_template("./index.html")
+
+@app.route('/books', methods=['GET'])
+def search_for_book():
+    #data = request.get_json()
+    data = 'the lord of the rings'
+    OLSearchURL = 'https://openlibrary.org/search.json'
+    data_formatted = data.replace(' ', '+')
+    book_search = OLSearchURL + '?q=' + data_formatted
+        
+    res = requests.get(book_search)
+    print(res)
+    print(jsonify(res))
+    print('done')
+
+   # call search openlibrary
+
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(debug=True)
